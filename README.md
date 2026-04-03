@@ -1,124 +1,87 @@
-# PageRank: Modeling and Simulation
+# pagerank-markov-simulation
+PageRank modeling and simulation using Markov chains
 
-This repository contains my course project on **PageRank as a Markov chain on a graph**.
+# PageRank Modeling and Simulation with Markov Chains
 
-The project studies how PageRank can be computed and approximated in two different ways:
+## Project overview
+This repository studies PageRank as a Markov chain on a graph.
 
-1. **Power iteration**
-2. **Random-walk simulation**
+The project compares two approaches for estimating node importance:
+- power iteration,
+- random-walk simulation.
 
-It follows the assignment requirements for the course project *“PageRank : modélisation et simulation”*.
+The goal is to understand how the empirical visit-frequency distribution from random walks approaches the stationary distribution computed by power iteration.
 
----
+## Research question
+For a fixed random graph, how close is the empirical PageRank vector obtained from random-walk simulation to the stationary PageRank vector obtained by power iteration as the walk length increases?
 
-## Project objective
-
-The purpose of this project is to:
-
-- generate a random graph,
-- build the modified PageRank transition matrix,
-- compute the stationary distribution by power iteration,
-- simulate random walks of different lengths,
-- compare the resulting rankings using numerical and ranking distances.
-
-The PageRank transition matrix is defined as
+## Model
+The PageRank transition matrix is defined by
 
 \[
 M = \alpha P + (1-\alpha)\Delta
 \]
 
-with \(\alpha = 0.85\), where \(P\) is the graph-based transition matrix and \(\Delta\) is the teleportation matrix.
+where:
+- \(P\) is the transition matrix of the graph-based random walk,
+- \(\Delta\) is the teleportation matrix,
+- \(\alpha = 0.85\).
 
----
+This modification makes the Markov chain more stable and avoids issues caused by disconnected or poorly connected graph structure.
 
-## Repository contents
-
-### Main code
-- `pagerank.py` — main Python script for graph generation, power iteration, random-walk simulation, ranking comparison, and figure export
-
-### Report
-- `pagerank_report.markdown` — written report in Markdown format
-
-### Results
-All generated outputs are stored in the `results/` folder:
-
-#### CSV files
-- `pagerank_comparison.csv` — comparison between power iteration and random walk for different walk lengths
-- `pagerank_power_convergence.csv` — convergence history of the power iteration method
-- `pagerank_top20_power.csv` — top 20 ranked nodes according to the power iteration result
-
-#### Figures
-- `pagerank_distribution_distance.png` — distribution distance between power iteration and random walk
-- `pagerank_power_convergence.png` — convergence curve of power iteration
-- `pagerank_ranking_distance.png` — ranking distance between methods
-- `image-1.png`, `image-2.png`, `image.png` — additional figures used in the project
-
----
-
-## Methodology
-
-The project follows these steps:
-
-1. Generate a fixed random graph of size around 1000
-2. Construct the PageRank transition matrix
-3. Compute the stationary distribution using power iteration
-4. Simulate random walks of length \(10^3, 10^4, 10^5, 10^6, 10^7\)
-5. Estimate visit frequencies from the simulated walks
-6. Compare the rankings obtained from both methods
-
-The comparison is based on:
-
-- \(L^1\) distance
-- \(L^2\) distance
-- Spearman footrule distance
-
----
+## Method
+The project combines:
+- probabilistic modeling of PageRank as a finite-state Markov chain,
+- computation of the stationary distribution by power iteration,
+- random-walk simulation for lengths \(10^3, 10^4, 10^5, 10^6, 10^7\),
+- comparison using \(L^1\) distance, \(L^2\) distance, and Spearman footrule distance,
+- reproducible Python code, tables, and figures.
 
 ## Main findings
+Based on the current computation:
+- power iteration converges quickly and provides a stable reference PageRank vector,
+- the random-walk estimate improves steadily as the walk length increases,
+- the Top-10 ranking becomes very close to the power-iteration result from \(10^4\) onward,
+- from \(10^5\) onward, the Top-10 ranking is almost stable.
 
-The experimental results show that:
+More specifically:
+- \(L^1\) distance decreases from **0.8693** at \(10^3\) steps to **0.0084** at \(10^7\) steps,
+- \(L^2\) distance decreases from **0.0360** to **0.00035**,
+- Spearman footrule distance decreases from **295520** to **18080**.
 
-- power iteration converges quickly,
-- random-walk estimates improve as the walk length increases,
-- both probability-distance measures and ranking-distance measures decrease with longer walks,
-- the top-ranked nodes become stable relatively early.
+## Rule of thumb
+Based on the current experiment:
+- short random walks are too noisy for reliable ranking,
+- medium-length random walks already recover the most important nodes well,
+- long random walks provide a close approximation to the power-iteration PageRank vector.
 
-Example results from the final experiment include:
-
-- \(L^1\) distance decreases from about **0.8693** at \(10^3\) steps to **0.0084** at \(10^7\) steps
-- \(L^2\) distance decreases from about **0.0360** to **0.00035**
-- Spearman footrule distance decreases from **295520** to **18080**
-
-These results suggest that long random walks provide a good empirical approximation of the PageRank stationary distribution.
-
----
-
-## How to run
-
-Install dependencies first:
-
-```bash
-pip install -r requirements.txt
+## Repository structure
+```text
+pagerank-markov-simulation/
+├── README.md
+├── pagerank.py
+├── pagerank_report.markdown
+└── report/
+    ├── pagerank_report.markdown
+    ├── pagerank_report.pdf
+    ├── image-1.png
+    ├── image-2.png
+    └── image.png
+└── results/
+    ├── pagerank_comparison.csv
+    ├── pagerank_power_convergence.csv
+    ├── pagerank_top20_power.csv
+    ├── pagerank_distribution_distance.png
+    ├── pagerank_power_convergence.png
+    └── pagerank_ranking_distance.png
 ```
 
-Then run:
+## Output
+The repository includes:
+- convergence results for power iteration,
+- distribution-level comparison between power iteration and random walk,
+- ranking-distance comparison,
+- top-ranked nodes under the power-iteration solution,
+- a written report summarizing the theoretical background, implementation, and findings.
 
-```bash
-python pagerank.py
-```
-
-This will reproduce the main PageRank computation and generate result files.
-
----
-
-## Reproducibility
-
-This repository is intended to be reproducible:
-
-- the code is provided in a single script,
-- the generated CSV files are included,
-- the output figures are included,
-- the report is included in Markdown format.
-
----
 
