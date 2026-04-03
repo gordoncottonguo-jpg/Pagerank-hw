@@ -111,27 +111,6 @@ This will reproduce the main PageRank computation and generate result files.
 
 ---
 
-## Recommended dependencies
-
-Create a file named `requirements.txt` with:
-
-```txt
-numpy
-pandas
-matplotlib
-networkx
-scipy
-```
-
-If you use Jupyter notebooks later, you can also add:
-
-```txt
-jupyter
-notebook
-```
-
----
-
 ## Reproducibility
 
 This repository is intended to be reproducible:
@@ -140,20 +119,6 @@ This repository is intended to be reproducible:
 - the generated CSV files are included,
 - the output figures are included,
 - the report is included in Markdown format.
-
----
-
-## Course context
-
-This work was produced for the course project in **Probabilities for Machine Learning**.
-
-The assignment requires:
-
-- generating a random graph,
-- computing the stationary distribution with power iteration,
-- simulating random walks,
-- comparing rankings via a distance between permutations,
-- and discussing the probabilistic interpretation of PageRank.
 
 ---
 
